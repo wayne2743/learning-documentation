@@ -5,7 +5,7 @@ Flask-JWT (JSON Web Token) 是一個使用 Flask 框架建立 RESTful API 的工
 
 Copy code
 
-```
+``` python 
 pip install flask-jwt
 ```
 
@@ -13,7 +13,7 @@ pip install flask-jwt
 創建一個名為 app.py 的 Python 文件並編寫以下代碼：
 
 
-```
+``` python 
 from flask import Flask
 from flask_jwt import JWT
 
@@ -29,7 +29,7 @@ jwt = JWT(app)
 ## 實現用戶認證
 現在我們需要實現用戶認證。我們將使用一個假的用戶數據庫來模擬實際情況。我們將創建一個名為 users 的字典，其中包含兩個用戶名稱和密碼對。
 
-```
+``` python 
 users = {
     'user1': 'password1',
     'user2': 'password2'
@@ -37,7 +37,7 @@ users = {
 ```
 接下來，我們需要創建一個函數，用於從用戶數據庫中檢索用戶名稱和密碼。如果找到用戶，則返回該用戶名稱對應的密碼，否則返回 None。
 
-```
+``` python 
 def authenticate(username, password):
     if username in users and password == users[username]:
         return username
@@ -45,7 +45,7 @@ def authenticate(username, password):
 
 接下來，我們需要創建一個函數，用於從 JWT 中解析出用戶名稱。這個函數將在每個請求中被調用，以檢查用戶是否已經通過認證。
 
-```
+``` python 
 def identity(payload):
     user_id = payload['identity']
     return {'user_id': user_id}
@@ -59,7 +59,7 @@ def identity(payload):
 /login 端點將接受用戶名稱和密碼，並使用 Flask-JWT 庫中的 jwt_required 裝飾器來創建一個 JWT。如果用戶名稱和密碼正確，則返回 JWT。
 
 
-```
+``` python 
 from flask import jsonify, request
 from flask_jwt import jwt_required, current_identity
 
@@ -86,7 +86,7 @@ def login():
 ## 受保護的端點
 /protected 端點將使用 Flask-JWT 庫中的 jwt_required 裝飾器來保護。只有通過認證的用戶才能訪問該端點。在這個端點中，我們簡單地返回用戶名稱。
 
-```
+``` python 
 @app.route('/protected')
 @jwt_required()
 def protected():
@@ -95,13 +95,13 @@ def protected():
 ## 啟動 Flask 應用程序
 現在我們已經創建了 Flask 應用程序和 RESTful API，我們可以使用以下代碼啟動 Flask 應用程序：
 
-```
+``` python 
 if __name__ == '__main__':
     app.run()
 ```
 完整的 app.py 代碼如下：
 
-```
+``` python 
 from flask import Flask, jsonify, request
 from flask_jwt import JWT, jwt_required, current_identity
 
